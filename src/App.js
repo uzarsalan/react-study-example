@@ -1,24 +1,23 @@
 import logo from "./logo.svg";
 import "./App.css";
 import FoodList from "./components/FoodList";
-import Cart from "./components/Cart";
+import { Link, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function App() {
-  let food = [
-    { name: "Буузы", price: 100 },
-    { name: "Пицца", price: 500 },
-    { name: "Паста", price: 350 },
-  ];
-
+  const sum = useSelector((state) => state.cart.sum);
   return (
     <div className="App">
       <header>
-        <Cart />
+        В корзине {sum} руб
+        <Link to="cart">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Смотреть корзину
+          </button>
+        </Link>
       </header>
       <div className="container mx-auto">
-        <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-          <FoodList items={food} />
-        </div>
+        <Outlet />
       </div>
     </div>
   );
