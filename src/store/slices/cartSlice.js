@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+const initialState = { discount: 0, items: [] };
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -8,30 +8,45 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       let itemToAdd = action.payload;
-      let index = state.findIndex((item) => item.food.name === itemToAdd.name);
+      let index = state.items.findIndex(
+        (item) => item.food.name === itemToAdd.name
+      );
       if (index >= 0) {
-        state[index].qty++;
+        state.items[index].qty++;
       } else {
-        state.push({ qty: 1, food: itemToAdd });
+        state.items.push({ qty: 1, food: itemToAdd });
       }
     },
     clearCart: (state) => {
-      state.length = 0;
+      state.items.length = 0;
+      state.sum = 0;
     },
     increaseItemQty: (state, action) => {
-      let index = state.findIndex((item) => item.food.name === action.payload);
-      state[index].qty++;
+      let index = state.items.findIndex(
+        (item) => item.food.name === action.payload
+      );
+      state.items[index].qty++;
     },
     decreaseItemQty: (state, action) => {
-      let index = state.findIndex((item) => item.food.name === action.payload);
-      state[index].qty--;
-      if (!state[index].qty) state.splice(index, 1);
+      let index = state.items.findIndex(
+        (item) => item.food.name === action.payload
+      );
+      state.items[index].qty--;
+      if (!state.items[index].qty) state.items.splice(index, 1);
+    },
+    applyDiscount: (state, action) => {
+      state.discount = action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addToCart, clearCart, increaseItemQty, decreaseItemQty } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  clearCart,
+  increaseItemQty,
+  decreaseItemQty,
+  applyDiscount,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;
