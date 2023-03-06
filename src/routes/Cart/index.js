@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import CartComponent from "../../components/CartComponent";
+import CartProvider from "../../components/CartProvider";
 import { applyDiscount } from "../../store/slices/cartSlice";
 
 let Cart = () => {
@@ -13,7 +14,9 @@ let Cart = () => {
           Назад
         </button>
       </Link>
-      <CartComponent />
+      <CartProvider>
+        <CartComponent />
+      </CartProvider>
 
       <button onClick={() => dispatch(applyDiscount(20))}>
         Применить скидку 20%

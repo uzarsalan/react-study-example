@@ -8,8 +8,13 @@ const CatalogItem = () => {
 
   return (
     <div>
-      <h1>{catalogItem.name}</h1>
-      <img src={catalogItem.image} />
+      <h1>{catalogItem.attributes.name}</h1>
+      <img
+        src={
+          "http://localhost:1337" +
+          catalogItem.attributes.image.data.attributes.url
+        }
+      />
     </div>
   );
 };

@@ -5,18 +5,18 @@ import {
   increaseItemQty,
 } from "../../store/slices/cartSlice";
 
-const Cart = ({ cartStore, decreaseItemQty, increaseItemQty, clearCart }) => {
+const Cart = ({ cart, sum, sumWithDisc }) => {
   const Sum = (
     <>
-      <div>Итого: {cartStore.sum} руб</div>
-      <div>Скидка {cartStore.discount}%</div>
-      <div>С учетом скидки: {cartStore.sumWithDisc} руб</div>
+      <div>Итого: {sum} руб</div>
+      <div>Скидка {cart.discount}%</div>
+      <div>С учетом скидки: {sumWithDisc} руб</div>
     </>
   );
   return (
     <div>
       <h3>Корзина</h3>
-      {cartStore.items.map((item, index) => (
+      {cart.items.map((item, index) => (
         <div key={item.food.name}>
           {item.food.name}
           <button
@@ -47,13 +47,4 @@ const Cart = ({ cartStore, decreaseItemQty, increaseItemQty, clearCart }) => {
   );
 };
 
-export default connect(
-  (state) => ({
-    cartStore: state.cart,
-  }),
-  {
-    increaseItemQty,
-    decreaseItemQty,
-    clearCart,
-  }
-)(Cart);
+export default Cart;

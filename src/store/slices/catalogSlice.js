@@ -1,24 +1,30 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const initialState = { loading: "start", items: [] };
+const initialState = { loading: "start", items: [], categoryName: null };
 
 export const fetchCatalog = createAsyncThunk(
   "catalog/fetchCatalog",
   async () => {
-    let catalog = fetch("catalog.json").then((r) => r.json());
-    return catalog;
+    return axios
+      .get("http://localhost:1337/api/foods?populate=category,image")
+      .then((r) => r.data);
   }
 );
 
 export const catalogSlice = createSlice({
   name: "catalog",
   initialState,
-  reducers: {},
+  reducers: {
+    setCategoryName: (state, action) => {
+      state.categoryName = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchCatalog.fulfilled, (state, action) => {
       state.loading = "fulfilled";
       state.items.length = 0;
-      state.items.push(...action.payload);
+      state.items.push(...action.payload.data);
     });
     builder.addCase(fetchCatalog.pending, (state, action) => {
       state.loading = "pending";
@@ -30,6 +36,6 @@ export const catalogSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-// export const { setCatalog } = catalogSlice.actions;
+export const { setCategoryName } = catalogSlice.actions;
 
 export default catalogSlice.reducer;
