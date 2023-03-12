@@ -1,15 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const cartStorageString = localStorage.getItem("cart");
+
 const initialState = { discount: 0, items: [] };
 
 export const cartSlice = createSlice({
   name: "cart",
-  initialState,
+  initialState: cartStorageString
+    ? JSON.parse(cartStorageString)
+    : initialState,
   reducers: {
     addToCart: (state, action) => {
       let itemToAdd = action.payload;
       let index = state.items.findIndex(
-        (item) => item.food.name === itemToAdd.name
+        (item) => item.food.id === itemToAdd.id
       );
       if (index >= 0) {
         state.items[index].qty++;
@@ -23,13 +27,13 @@ export const cartSlice = createSlice({
     },
     increaseItemQty: (state, action) => {
       let index = state.items.findIndex(
-        (item) => item.food.name === action.payload
+        (item) => item.food.id === action.payload
       );
       state.items[index].qty++;
     },
     decreaseItemQty: (state, action) => {
       let index = state.items.findIndex(
-        (item) => item.food.name === action.payload
+        (item) => item.food.id === action.payload
       );
       state.items[index].qty--;
       if (!state.items[index].qty) state.items.splice(index, 1);
