@@ -4,6 +4,7 @@ import About from "./About";
 import Cart from "./Cart";
 import Catalog from "./Catalog";
 import CatalogItem from "./Catalog/CatalogItem";
+import CheckoutPage from "./CheckoutPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "cart",
     element: <Cart />,
+  },
+  {
+    path: "checkout",
+    element: <CheckoutPage />,
   },
 ]);
 
